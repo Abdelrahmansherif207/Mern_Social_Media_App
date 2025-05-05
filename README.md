@@ -163,11 +163,19 @@ Below are some screenshots showcasing the main UI screens. Screenshots are locat
 
 | Screen                   | Preview                                                             |
 | ------------------------ | ------------------------------------------------------------------- |
-| Login / Signup           | ![Login / Signup](screenshots/login-signup.png)                     |
-| Feed & Posts             | ![Feed & Posts](screenshots/feed.png)                               |
+| Land Page                | ![Login / Signup](screenshots/land.png)                             |
+| Signup                   | ![Login / Signup](screenshots/signup.png)                           |
+| Login                    | ![Login / Signup](screenshots/signin.png)                           |
+| Feed & Posts             | ![Feed & Posts](screenshots/home.png)                               |
 | Profile Page             | ![Profile Page](screenshots/profile.png)                            |
-| Create / Edit Post       | ![Create / Edit Post](screenshots/create-edit-post.png)             |
-| Search & Recommendations | ![Search & Recommendations](screenshots/search-recommendations.png) |
+| Create Post              | ![Create / Edit Post](screenshots/img.png)                          |
+| Post detail              | ![Create / Edit Post](screenshots/detail.png)                       |
+| Update Profile           | ![Create / Edit Post](screenshots/settings1.png)                    |
+| Settings                 | ![Create / Edit Post](screenshots/settings2.png)                    |
+| Search                   | ![Search & Recommendations](screenshots/search.png)                 |
+| Recommendataion          | ![Search & Recommendations](screenshots/recommended.png)            |
+| 404                      | ![Search & Recommendations](screenshots/recommended.png)            |
+| Comming Soon             | ![Search & Recommendations](screenshots/recommended.png)            |
 
 ---
 
