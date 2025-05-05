@@ -25,11 +25,13 @@ A full-stack social media application built with the MERN (MongoDB, Express, Rea
 ## Features
 
 * **Authentication**: Sign up, Sign in, Change password, Delete account using JWT-based authentication.
+* **Current User**: Retrieve the authenticated user’s data via a `/me` endpoint to maintain front-end state.
 * **Feed**: View your posts and friends' posts in a real-time feed with Create, Read, Update, Delete (CRUD) operations on your own posts.
 * **Social**: Follow/Unfollow users, Like and comment on posts.
 * **Profiles**: View and edit user profiles, update avatar and bio.
 * **Search & Recommendations**: Search for users and see recommended users to follow.
 * **Optimistic UI**: Instant updates in the UI using React Context API and custom hooks for optimistic updates.
+* **API Documentation**: Interactive Swagger docs available at `/api-docs`.
 * **Responsive Design**: Styled with Tailwind CSS and Hero UI for a mobile-first, responsive experience.
 
 ---
@@ -117,7 +119,8 @@ mern-social-media-app/
 │   ├── public/
 │   ├── src/
 │   │   ├── components/     # Reusable UI components
-│   │   ├── context/        # React Context & hooks
+│   │   ├── hooks/          # Custom React hooks
+│   │   ├── context/        # React Context & state
 │   │   ├── pages/          # Route pages
 │   │   ├── utils/          # Helpers & API calls
 │   │   ├── App.js
@@ -132,36 +135,37 @@ mern-social-media-app/
 
 ## API Endpoints
 
-| Method | Endpoint                 | Description                   |
-| ------ | ------------------------ | ----------------------------- |
-| POST   | `/api/auth/signup`       | Register a new user           |
-| POST   | `/api/auth/signin`       | Authenticate user & get token |
-| PUT    | `/api/auth/password`     | Change password               |
-| DELETE | `/api/auth/delete`       | Delete user account           |
-| GET    | `/api/posts`             | Get feed posts                |
-| POST   | `/api/posts`             | Create a new post             |
-| PUT    | `/api/posts/:id`         | Update a post                 |
-| DELETE | `/api/posts/:id`         | Delete a post                 |
-| POST   | `/api/posts/:id/comment` | Add comment to a post         |
-| POST   | `/api/posts/:id/like`    | Like/unlike a post            |
-| GET    | `/api/users/:id`         | Get user profile              |
-| PUT    | `/api/users/:id`         | Update user profile           |
-| POST   | `/api/users/:id/follow`  | Follow/unfollow a user        |
-| GET    | `/api/users/search?q=`   | Search for users              |
+| Method | Endpoint                 | Description                                          |
+| ------ | ------------------------ | ---------------------------------------------------- |
+| POST   | `/api/auth/signup`       | Register a new user                                  |
+| POST   | `/api/auth/signin`       | Authenticate user & get token                        |
+| GET    | `/api/auth/me`           | Get current authenticated user (for front-end state) |
+| PUT    | `/api/auth/password`     | Change password                                      |
+| DELETE | `/api/auth/delete`       | Delete user account                                  |
+| GET    | `/api/posts`             | Get feed posts                                       |
+| POST   | `/api/posts`             | Create a new post                                    |
+| PUT    | `/api/posts/:id`         | Update a post                                        |
+| DELETE | `/api/posts/:id`         | Delete a post                                        |
+| POST   | `/api/posts/:id/comment` | Add comment to a post                                |
+| POST   | `/api/posts/:id/like`    | Like/unlike a post                                   |
+| GET    | `/api/users/:id`         | Get user profile                                     |
+| PUT    | `/api/users/:id`         | Update user profile                                  |
+| POST   | `/api/users/:id/follow`  | Follow/unfollow a user                               |
+| GET    | `/api/users/search?q=`   | Search for users                                     |
 
 ---
 
 ## UI Examples
 
-Below are some screenshots showcasing the main UI screens. Screenshots are located in the `screenshots/` folder.
+Below are some screenshots showcasing the main UI screens. Screenshots are located in the `screenshots/` folder and rendered inline using Markdown.
 
-| Screen                   | Preview                                  |
-| ------------------------ | ---------------------------------------- |
-| Login / Signup           | `screenshots/login-signup.png`           |
-| Feed & Posts             | `screenshots/feed.png`                   |
-| Profile Page             | `screenshots/profile.png`                |
-| Create / Edit Post       | `screenshots/create-edit-post.png`       |
-| Search & Recommendations | `screenshots/search-recommendations.png` |
+| Screen                   | Preview                                                             |
+| ------------------------ | ------------------------------------------------------------------- |
+| Login / Signup           | ![Login / Signup](screenshots/login-signup.png)                     |
+| Feed & Posts             | ![Feed & Posts](screenshots/feed.png)                               |
+| Profile Page             | ![Profile Page](screenshots/profile.png)                            |
+| Create / Edit Post       | ![Create / Edit Post](screenshots/create-edit-post.png)             |
+| Search & Recommendations | ![Search & Recommendations](screenshots/search-recommendations.png) |
 
 ---
 
