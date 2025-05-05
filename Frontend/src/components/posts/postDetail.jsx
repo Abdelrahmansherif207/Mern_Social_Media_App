@@ -82,11 +82,14 @@ export default function PostDetailsModal({
 
                         {/* Image Section */}
                         {post.image && (
-                            <div className="w-full rounded-lg overflow-hidden max-h-64">
+                            <div className="w-full max-h-64 overflow-hidden">
                                 <img
                                     src={post.image}
                                     alt="Expanded post content"
-                                    className="w-full h-full object-cover rounded-lg"
+                                    className="w-full object-contain rounded-lg"
+                                    style={{
+                                        maxHeight: "256px",
+                                    }}
                                 />
                             </div>
                         )}

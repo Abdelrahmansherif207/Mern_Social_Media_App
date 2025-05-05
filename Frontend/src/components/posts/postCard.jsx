@@ -211,7 +211,7 @@ export default function PostCard({ post }) {
                             <img
                                 src={post.image}
                                 alt="Post content"
-                                className="w-full h-full rounded-lg transition-transform duration-300 group-hover:scale-105 object-cover"
+                                className="w-full h-full rounded-lg transition-transform duration-300 group-hover:scale-105 object-contain"
                             />
                             <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
                                 <svg
