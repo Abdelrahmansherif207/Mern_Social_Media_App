@@ -31,9 +31,9 @@ A full-stack social media application built with the MERN (MongoDB, Express, Rea
 * **Profiles**: View and edit user profiles, update avatar and bio.
 * **Search & Recommendations**: Search for users and see recommended users to follow.
 * **Optimistic UI**: Instant updates in the UI using React Context API and custom hooks for optimistic updates.
+* **Infinite Scroll**: Automatically load 5 posts per request as the user scrolls.
 * **Image Hosting**: User-uploaded images are hosted via ImgBB for reliable CDN delivery.
 * **API Documentation**: Interactive Swagger docs available at `/api-docs`.
-* **Responsive Design**: Styled with Tailwind CSS and Hero UI for a mobile-first, responsive experience.
 
 ---
 
@@ -136,23 +136,24 @@ mern-social-media-app/
 
 ## API Endpoints
 
-| Method | Endpoint                 | Description                                          |
-| ------ | ------------------------ | ---------------------------------------------------- |
-| POST   | `/api/auth/signup`       | Register a new user                                  |
-| POST   | `/api/auth/signin`       | Authenticate user & get token                        |
-| GET    | `/api/auth/me`           | Get current authenticated user (for front-end state) |
-| PUT    | `/api/auth/password`     | Change password                                      |
-| DELETE | `/api/auth/delete`       | Delete user account                                  |
-| GET    | `/api/posts`             | Get feed posts                                       |
-| POST   | `/api/posts`             | Create a new post                                    |
-| PUT    | `/api/posts/:id`         | Update a post                                        |
-| DELETE | `/api/posts/:id`         | Delete a post                                        |
-| POST   | `/api/posts/:id/comment` | Add comment to a post                                |
-| POST   | `/api/posts/:id/like`    | Like/unlike a post                                   |
-| GET    | `/api/users/:id`         | Get user profile                                     |
-| PUT    | `/api/users/:id`         | Update user profile                                  |
-| POST   | `/api/users/:id/follow`  | Follow/unfollow a user                               |
-| GET    | `/api/users/search?q=`   | Search for users                                     |
+| Method | Endpoint                           | Description                                          |
+| ------ | ---------------------------------- | ---------------------------------------------------- |
+| POST   | `/api/auth/signup`                 | Register a new user                                  |
+| POST   | `/api/auth/signin`                 | Authenticate user & get token                        |
+| GET    | `/api/auth/me`                     | Get current authenticated user (for front-end state) |
+| PUT    | `/api/auth/password`               | Change password                                      |
+| DELETE | `/api/auth/delete`                 | Delete user account                                  |
+| GET    | `/api/posts`                       | Get feed posts                                       |
+| POST   | `/api/posts`                       | Create a new post                                    |
+| PUT    | `/api/posts/:id`                   | Update a post                                        |
+| DELETE | `/api/posts/:id`                   | Delete a post                                        |
+| POST   | `/api/posts/:id/comment`           | Add comment to a post                                |
+| POST   | `/api/posts/:id/like`              | Like/unlike a post                                   |
+| GET    | `/api/users/:id`                   | Get user profile                                     |
+| PUT    | `/api/users/:id`                   | Update user profile                                  |
+| POST   | `/api/users/:id/follow`            | Follow/unfollow a user                               |
+| GET    | `/api/users/search?q=`             | Search for users                                     |
+| GET    | `/api/posts?limit=5&page=<number>` | Infinite scroll: fetch 5 posts per request           |
 
 ---
 
