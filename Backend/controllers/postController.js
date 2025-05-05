@@ -21,8 +21,6 @@ exports.createPost = async (req, res) => {
         });
 
         const post = await newPost.save();
-
-        // Populate user information before sending response
         await post.populate("user", "username profilePicture");
 
         res.status(201).json(post);
@@ -79,7 +77,7 @@ exports.getPostById = async (req, res) => {
         res.status(200).json(post);
     } catch (error) {
         console.error("Get Post By ID Error:", error.message);
-        // Handle CastError if the ID format is invalid
+
         if (error.name === "CastError") {
             return res.status(400).json({ message: "Invalid post ID format" });
         }
@@ -105,19 +103,17 @@ exports.updatePost = async (req, res) => {
             return res.status(404).json({ message: "Post not found" });
         }
 
-        // Check if the logged-in user is the author of the post
         if (post.user.toString() !== req.user._id.toString()) {
             return res
                 .status(401)
                 .json({ message: "User not authorized to update this post" });
         }
 
-        // Update fields if provided
         if (content !== undefined) post.content = content;
         if (image !== undefined) post.image = image;
 
         const updatedPost = await post.save();
-        await updatedPost.populate("user", "username profilePicture"); // Repopulate user info
+        await updatedPost.populate("user", "username profilePicture");
 
         res.status(200).json(updatedPost);
     } catch (error) {
@@ -146,15 +142,13 @@ exports.deletePost = async (req, res) => {
             return res.status(404).json({ message: "Post not found" });
         }
 
-        // Check if the logged-in user is the author of the post
         if (post.user.toString() !== req.user._id.toString()) {
             return res
                 .status(401)
                 .json({ message: "User not authorized to delete this post" });
         }
 
-        await post.deleteOne(); // Use deleteOne() or remove()
-
+        await post.deleteOne();
         res.status(200).json({ message: "Post removed successfully" });
     } catch (error) {
         console.error("Delete Post Error:", error.message);
@@ -184,7 +178,6 @@ exports.reactToPost = async (req, res) => {
             return res.status(404).json({ message: "Post not found" });
         }
 
-        // Check if the user has already reacted with the same emoji
         const reactionIndex = post.reactions.findIndex(
             (reaction) =>
                 reaction.user.toString() === userId.toString() &&
@@ -192,18 +185,14 @@ exports.reactToPost = async (req, res) => {
         );
 
         if (reactionIndex > -1) {
-            // User has reacted with this emoji, so remove it (toggle off)
             post.reactions.splice(reactionIndex, 1);
         } else {
-            // User has not reacted with this emoji, check if they reacted with another
             const userExistingReactionIndex = post.reactions.findIndex(
                 (reaction) => reaction.user.toString() === userId.toString()
             );
             if (userExistingReactionIndex > -1) {
-                // User already reacted with a different emoji, update it
                 post.reactions[userExistingReactionIndex].emoji = emoji;
             } else {
-                // Add new reaction
                 post.reactions.push({ user: userId, emoji });
             }
         }
@@ -258,18 +247,17 @@ exports.addComment = async (req, res) => {
             user: userId,
         };
 
-        post.comments.unshift(newComment); // Add comment to the beginning of the array
+        post.comments.unshift(newComment);
 
         await post.save();
 
-        // Repopulate necessary fields before sending back
         await post.populate("user", "username profilePicture");
         await post.populate({
             path: "comments.user",
             select: "username profilePicture",
         });
 
-        res.status(201).json(post); // Send back the updated post
+        res.status(201).json(post);
     } catch (error) {
         console.error("Add Comment Error:", error.message);
         if (error.name === "CastError") {
@@ -294,17 +282,14 @@ exports.deleteComment = async (req, res) => {
             return res.status(404).json({ message: "Post not found" });
         }
 
-        // Find the comment within the post
         const comment = post.comments.find(
             (comment) => comment._id.toString() === commentId
         );
 
-        // Check if comment exists
         if (!comment) {
             return res.status(404).json({ message: "Comment not found" });
         }
 
-        // Check if the user is the comment author OR the post author
         if (
             comment.user.toString() !== userId.toString() &&
             post.user.toString() !== userId.toString()
@@ -314,7 +299,6 @@ exports.deleteComment = async (req, res) => {
             });
         }
 
-        // Find the index of the comment to remove
         const removeIndex = post.comments.findIndex(
             (comment) => comment._id.toString() === commentId
         );
@@ -329,14 +313,13 @@ exports.deleteComment = async (req, res) => {
 
         await post.save();
 
-        // Repopulate necessary fields before sending back
         await post.populate("user", "username profilePicture");
         await post.populate({
             path: "comments.user",
             select: "username profilePicture",
         });
 
-        res.status(200).json(post); // Send back the updated post
+        res.status(200).json(post);
     } catch (error) {
         console.error("Delete Comment Error:", error.message);
         if (error.name === "CastError") {
@@ -365,13 +348,10 @@ exports.getUserFeed = async (req, res) => {
 
         const following = Array.isArray(user.following) ? user.following : [];
         const userAndFollowingIds = [user_id, ...following];
-
-        // 🔢 Get pagination parameters
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 5;
         const skip = (page - 1) * limit;
 
-        // 🧠 Paginate the posts
         const posts = await Post.find({ user: { $in: userAndFollowingIds } })
             .populate("user", "username profilePicture")
             .populate("comments.user", "username profilePicture")

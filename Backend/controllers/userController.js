@@ -61,7 +61,6 @@ exports.followUser = async (req, res) => {
     const currentUserId = req.user._id;
 
     try {
-        // Basic validation
         if (!userIdToFollow || !currentUserId) {
             return res.status(400).json({ message: "Missing user IDs" });
         }
@@ -72,7 +71,6 @@ exports.followUser = async (req, res) => {
                 .json({ message: "You cannot follow yourself" });
         }
 
-        // Find both users
         const [userToFollow, currentUser] = await Promise.all([
             User.findById(userIdToFollow),
             User.findById(currentUserId),
@@ -82,14 +80,12 @@ exports.followUser = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        // Check if already following
         if (currentUser.following.includes(userIdToFollow)) {
             return res
                 .status(400)
                 .json({ message: "Already following this user" });
         }
 
-        // Update both users
         await User.findByIdAndUpdate(currentUserId, {
             $addToSet: { following: userIdToFollow },
         });
@@ -130,7 +126,6 @@ exports.unfollowUser = async (req, res) => {
     const currentUserId = req.user._id;
 
     try {
-        // Basic validation
         if (!userIdToUnfollow || !currentUserId) {
             return res.status(400).json({ message: "Missing user IDs" });
         }
@@ -141,7 +136,6 @@ exports.unfollowUser = async (req, res) => {
                 .json({ message: "You cannot unfollow yourself" });
         }
 
-        // Find both users
         const [userToUnfollow, currentUser] = await Promise.all([
             User.findById(userIdToUnfollow),
             User.findById(currentUserId),
@@ -151,14 +145,12 @@ exports.unfollowUser = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        // Check if following relationship exists
         if (!currentUser.following.includes(userIdToUnfollow)) {
             return res
                 .status(400)
                 .json({ message: "You are not following this user" });
         }
 
-        // Update both users
         await Promise.all([
             User.findByIdAndUpdate(currentUserId, {
                 $pull: { following: userIdToUnfollow },
@@ -223,8 +215,6 @@ exports.deleteUser = asyncHandler(async (req, res) => {
         res.status(404);
         throw new Error("User not found");
     }
-
-    // 2) Authorization: only the owner or an admin can delete
 
     if (req.user.id !== user.id.toString()) {
         res.status(403);

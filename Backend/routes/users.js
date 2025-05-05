@@ -272,8 +272,4 @@ router.put("/:id/follow", protect, followUser);
  */
 router.put("/:id/unfollow", protect, unfollowUser);
 
-// Optional: Add routes for getting followers/following lists
-// router.get('/:id/followers', getFollowers);
-// router.get('/:id/following', getFollowing);
-
 module.exports = router;

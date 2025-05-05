@@ -8,9 +8,7 @@ const swaggerUi = require("swagger-ui-express");
 // Import routes
 const authRoutes = require("./routes/auth");
 const postRoutes = require("./routes/posts");
-const userRoutes = require("./routes/users"); // Import user routes
-// TODO: Import other routes (users, etc.) later
-
+const userRoutes = require("./routes/users");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -22,8 +20,8 @@ app.use(
         allowedHeaders: ["Content-Type", "Authorization"],
     })
 );
-app.use(express.json()); // for parsing application/json
-app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Swagger Configuration
 const swaggerOptions = {
@@ -34,18 +32,15 @@ const swaggerOptions = {
             version: "1.0.0",
             description: "API documentation for the social media application",
             contact: {
-                name: "Your Name/Org", // Optional: Add your name
-                // url: "Your Website", // Optional: Add your website
-                // email: "Your Email" // Optional: Add your email
+                name: "Your Name/Org",
             },
             servers: [
                 {
-                    url: `http://localhost:${PORT}`, // Adjust if deployed elsewhere
+                    url: `http://localhost:${PORT}`,
                 },
             ],
         },
         components: {
-            // Define security scheme globally
             securitySchemes: {
                 bearerAuth: {
                     type: "http",
@@ -56,12 +51,11 @@ const swaggerOptions = {
         },
         security: [
             {
-                bearerAuth: [], // Apply bearerAuth globally to all operations that define security
+                bearerAuth: [],
             },
         ],
     },
-    // Path to the API docs
-    // Note: Uses glob pattern to include all route files
+
     apis: ["./routes/*.js"],
 };
 
@@ -83,10 +77,7 @@ app.get("/", (req, res) => {
 
 // Connect to MongoDB
 mongoose
-    .connect(process.env.MONGODB_URI, {
-        //   useNewUrlParser: true, // These options are deprecated in newer Mongoose versions
-        //   useUnifiedTopology: true,
-    })
+    .connect(process.env.MONGODB_URI, {})
     .then(() => {
         console.log("MongoDB Connected...");
         app.listen(PORT, () => {
@@ -98,5 +89,5 @@ mongoose
     })
     .catch((err) => {
         console.error("MongoDB connection error:", err.message);
-        process.exit(1); // Exit process with failure
+        process.exit(1);
     });

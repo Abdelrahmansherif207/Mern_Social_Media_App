@@ -42,7 +42,6 @@ const PostSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-// Optional: Add index on createdAt for sorting feeds
 PostSchema.index({ createdAt: -1 });
 
 const Post = mongoose.model("Post", PostSchema);

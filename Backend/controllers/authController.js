@@ -1,12 +1,8 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const { OAuth2Client } = require("google-auth-library"); // Import Google Auth Library
+const { OAuth2Client } = require("google-auth-library");
 const asyncHandler = require("express-async-handler");
-
-// Initialize Google Auth Client (replace with your actual Client ID)
-// Ensure GOOGLE_CLIENT_ID is set in your .env file
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // Utility function to generate JWT
 const generateToken = (userId) => {
@@ -36,16 +32,8 @@ const register = asyncHandler(async (req, res) => {
         throw new Error("Password is required");
     }
 
-    // Log the email being checked
-    console.log("Checking if email already exists:", email);
-
-    // Check if email exists
     const emailExists = await User.findOne({ email });
 
-    // Log the result of the query
-    console.log("Email exists:", emailExists);
-
-    // If email exists, send error
     if (emailExists) {
         return res
             .status(400)
@@ -53,8 +41,6 @@ const register = asyncHandler(async (req, res) => {
     }
 
     try {
-        console.log("Creating user...");
-        // Create the user if no email exists
         const user = await User.create({
             username,
             email,
@@ -62,14 +48,12 @@ const register = asyncHandler(async (req, res) => {
             profilePicture,
         });
 
-        console.log("User created:", user); // Log the created user
-
         // Generate token
         const token = generateToken(user._id);
 
-        console.log("Generated token:", token); // Log the generated token
+        console.log("Generated token:", token);
 
-        // Send response with the new user data and token
+        // Send response
         return res.status(201).json({
             _id: user._id,
             username: user.username,
@@ -78,7 +62,6 @@ const register = asyncHandler(async (req, res) => {
             token,
         });
     } catch (error) {
-        // Log any unexpected errors
         console.error("Error creating user:", error);
         res.status(500).json({ message: "Something went wrong" });
     }
@@ -91,24 +74,20 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        // Check for user by email
         const user = await User.findOne({ email }).select("+password");
 
         if (!user) {
             return res.status(400).json({ message: "Invalid credentials" });
         }
 
-        // Check if password matches
         const isMatch = await user.comparePassword(password);
 
         if (!isMatch) {
             return res.status(400).json({ message: "Invalid credentials" });
         }
 
-        // Generate token
         const token = generateToken(user._id);
 
-        // Respond with user data (excluding password) and token
         res.status(200).json({
             user: user,
             token: token,
@@ -145,15 +124,12 @@ exports.changePassword = async (req, res) => {
     }
 
     try {
-        // Get user and explicitly select the password field
         const user = await User.findById(userId).select("+password");
 
         if (!user) {
-            // Should not happen if protect middleware is working, but good practice to check
             return res.status(404).json({ message: "User not found" });
         }
 
-        // Check if user used Google Sign-in (no password stored)
         if (!user.password) {
             return res.status(400).json({
                 message:
@@ -161,7 +137,6 @@ exports.changePassword = async (req, res) => {
             });
         }
 
-        // Check if the current password matches
         const isMatch = await user.comparePassword(currentPassword);
 
         if (!isMatch) {
@@ -170,7 +145,6 @@ exports.changePassword = async (req, res) => {
                 .json({ message: "Incorrect current password" });
         }
 
-        // Hash the new password (pre-save hook will handle this)
         user.password = newPassword;
         await user.save();
 
@@ -187,8 +161,6 @@ exports.changePassword = async (req, res) => {
 // @route   POST /api/auth/logout
 // @access  Private
 exports.logout = (req, res) => {
-    // In a stateless JWT setup, logout is handled client-side by removing the token.
-    // Optionally, implement server-side token blocklisting here if needed.
     res.status(200).json({ message: "Logout successful" });
 };
 
@@ -329,7 +301,6 @@ exports.getMe = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        // Transform to prevent circular references
         const transformUser = (user) => ({
             _id: user._id,
             username: user.username,
@@ -363,12 +334,9 @@ exports.getMe = async (req, res) => {
     }
 };
 
-// Remove the old TODO comment if it's no longer relevant or update it
-// // TODO: Implement Google Login, Logout, Change Password controllers later
-
 module.exports = {
     register,
-    login: exports.login, // Keep existing exports if they use `exports.` syntax
+    login: exports.login,
     changePassword: exports.changePassword,
     logout: exports.logout,
     googleLogin: exports.googleLogin,

@@ -92,7 +92,6 @@ UserSchema.pre("save", async function (next) {
     }
 });
 
-// Count updates — no internal .save() calls now
 UserSchema.methods.updateFollowerCount = function () {
     this.followersCount = this.followers.length;
 };
@@ -101,7 +100,6 @@ UserSchema.methods.updateFollowingCount = function () {
     this.followingCount = this.following.length;
 };
 
-// Update follower/following counts before save
 UserSchema.pre("save", function () {
     this.updateFollowerCount();
     this.updateFollowingCount();

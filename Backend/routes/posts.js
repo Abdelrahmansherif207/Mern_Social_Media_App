@@ -423,6 +423,4 @@ router.route("/:id/comments").post(protect, addComment);
  */
 router.route("/:id/comments/:comment_id").delete(protect, deleteComment);
 
-// TODO: Add routes for friends later
-
 module.exports = router;
