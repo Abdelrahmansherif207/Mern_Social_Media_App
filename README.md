@@ -31,7 +31,7 @@ A full-stack social media application built with the MERN (MongoDB, Express, Rea
 * **Profiles**: View and edit user profiles, update avatar and bio.
 * **Search & Recommendations**: Search for users and see recommended users to follow.
 * **Optimistic UI**: Instant updates in the UI using React Context API and custom hooks for optimistic updates.
-* **Image Hosting**: User-uploaded images are hosted via Imagedd for reliable CDN delivery.
+* **Image Hosting**: User-uploaded images are hosted via ImgBB for reliable CDN delivery.
 * **API Documentation**: Interactive Swagger docs available at `/api-docs`.
 * **Responsive Design**: Styled with Tailwind CSS and Hero UI for a mobile-first, responsive experience.
 
