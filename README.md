@@ -174,8 +174,8 @@ Below are some screenshots showcasing the main UI screens. Screenshots are locat
 | Settings                 | ![Create / Edit Post](screenshots/settings2.png)                    |
 | Search                   | ![Search & Recommendations](screenshots/search.png)                 |
 | Recommendataion          | ![Search & Recommendations](screenshots/recommended.png)            |
-| 404                      | ![Search & Recommendations](screenshots/recommended.png)            |
-| Comming Soon             | ![Search & Recommendations](screenshots/recommended.png)            |
+| 404                      | ![Search & Recommendations](screenshots/404.png)                    |
+| Comming Soon             | ![Search & Recommendations](screenshots/comming.png)                |
 
 ---
 
